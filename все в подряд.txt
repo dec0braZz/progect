@@ -1,0 +1,41 @@
+#include <QApplication>
+#include <QWidget>
+#include <QPushButton>
+#include <QIcon> //иконки
+
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    // Главное окно
+    QWidget window;
+    window.setWindowTitle("Кнопка с изображением");
+    window.setMinimumSize(300, 200);
+
+    // Создаем кнопку
+    QPushButton button(&window);
+    button.setGeometry(50, 50, 200, 100);
+
+    // Устанавливаем начальное изображение
+    QIcon icon1(":/images/photo1.png"); // Путь к первому изображению
+    QIcon icon2(":/images/photo2.png"); // Путь ко второму изображению
+    button.setIcon(icon1);
+    button.setIconSize(QSize(200, 100)); // Размер изображения на кнопке
+
+    // Храним состояние кнопки (текущее изображение)
+    bool isPhoto1 = true;
+
+    // Подключаем сигнал clicked() к лямбда-функции для изменения изображения
+    QObject::connect(&button, &QPushButton::clicked, [&button, &isPhoto1, &icon1, &icon2]() {
+        if (isPhoto1) {
+            button.setIcon(icon2); // Меняем на второе изображение
+        } else {
+            button.setIcon(icon1); // Возвращаем первое изображение
+        }
+        isPhoto1 = !isPhoto1; // Переключаем состояние
+    });
+
+    // Отображаем окно
+    window.show();
+
+    return app.exec();
+}
