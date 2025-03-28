@@ -31,8 +31,13 @@ private slots:
 private:
     QLabel *mesage;
     QLabel *grupa;
+    QLabel *seting;
+    QLabel *profile;
+
     QMovie *movie;
     QMovie *movieGrupa;
+    QMovie *movieSeting;
+    QMovie *movieProfile;
     QTimer *timer;
     QPropertyAnimation *animation;
 signals:

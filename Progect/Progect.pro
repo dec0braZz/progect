@@ -1,5 +1,6 @@
 QT += widgets sql
 QT -= gui
+QMAKE_CXXFLAGS += -O3
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
