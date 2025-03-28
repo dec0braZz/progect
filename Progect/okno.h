@@ -12,7 +12,7 @@ class OKNO : public QWidget {
 public:
     explicit OKNO(QWidget *parent = nullptr);
     void openOKNO();
-
+    ~OKNO();
 protected:
     void closeEvent(QCloseEvent *event) override{
 
@@ -35,7 +35,6 @@ private:
     QMovie *movieGrupa;
     QTimer *timer;
     QPropertyAnimation *animation;
-
 signals:
     void closed();
 };

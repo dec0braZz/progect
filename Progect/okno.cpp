@@ -78,6 +78,10 @@ bool OKNO::eventFilter(QObject *obj, QEvent *event) {
     }
     QWidget::eventFilter(obj, event);
 }
+OKNO::~OKNO() {
+    delete movie;
+    delete movieGrupa;
+}
 
 void OKNO::onTimerTimeout() {
     movie->stop();
@@ -86,3 +90,4 @@ void OKNO::onTimerTimeout() {
     grupa->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/grupa.gif"));
     timer->stop();
 }
+
