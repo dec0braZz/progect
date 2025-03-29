@@ -25,10 +25,17 @@ OKNO::OKNO(QWidget *parent)
 
     // Настройки окна
     setWindowTitle("KLOZ");
-    setStyleSheet("background-color: gray;");
+    setStyleSheet("background-color: grey;");
     resize(1280, 640);
 
-    // Настройки для 'mesage'
+    //Настройка для "profile"
+    profile->setGeometry(500, 250, 120, 45);
+    profile->setStyleSheet("border-radius: 40px;");
+    profile->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/profile.gif"));
+    profile->setAlignment(Qt::AlignCenter);
+    profile->setScaledContents(true);
+    profile->installEventFilter(this);
+    // Настройки для 'mesage' Hover Фрейм
     mesage->setGeometry(500, 70, 120, 45);
     mesage->setStyleSheet("border-radius: 40px;");
     mesage->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/ipone.gif"));
@@ -38,7 +45,7 @@ OKNO::OKNO(QWidget *parent)
 
     // Настройки для 'grupa'
     grupa->setGeometry(500, 130, 120, 45);
-    grupa->setStyleSheet("border-radius: 40px;");
+    grupa->setStyleSheet(mesage->styleSheet());
     grupa->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/grupa.gif"));
     grupa->setAlignment(Qt::AlignCenter);
     grupa->setScaledContents(true);
@@ -46,21 +53,15 @@ OKNO::OKNO(QWidget *parent)
 
     // Настройки для 'seting'
     seting->setGeometry(500, 190, 120, 45);
-    seting->setStyleSheet(grupa->styleSheet());
+    seting->setStyleSheet("border-radius: 40px;");
     seting->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/seting.gif"));
     seting->setAlignment(Qt::AlignCenter);
     seting->setScaledContents(true);
     seting->installEventFilter(this);
 
-    //Настройка для "profile"
-    profile->setGeometry(500, 250, 120, 45);
-    profile->setStyleSheet(grupa->styleSheet());
-    profile->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/profile.gif"));
-    profile->setAlignment(Qt::AlignCenter);
-    profile->setScaledContents(true);
-    profile->installEventFilter(this);
 
-    // Анимации
+
+    // Анимация
     auto animationToFinal = new QPropertyAnimation(mesage, "geometry");
     animationToFinal->setDuration(1000);
     animationToFinal->setStartValue(QRect(500, 70, 120, 45));
@@ -112,7 +113,7 @@ bool OKNO::eventFilter(QObject *obj, QEvent *event) {
                 timer->stop();
             }
         } else if (event->type() == QEvent::Leave) {
-            timer->start(2000); // Задержка 2 секунды
+            timer->start(2000); // Задержка 2 секунды после нажатия
         } else if (event->type() == QEvent::MouseButtonPress) {
             close();
         }

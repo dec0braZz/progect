@@ -15,7 +15,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_QML_DEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_CORE_LIB
 CFLAGS        = -fno-keep-inline-dllexport -O2 -Wall -W -Wextra $(DEFINES)
-CXXFLAGS      = -fno-keep-inline-dllexport -O2 -std=gnu++11 -Wall -W -Wextra -fexceptions -mthreads $(DEFINES)
+CXXFLAGS      = -fno-keep-inline-dllexport -O2 -O2 -std=gnu++11 -Wall -W -Wextra -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I..\Progect -I. -IC:\Qt\Qt5.12.12\5.12.12\mingw73_64\include -IC:\Qt\Qt5.12.12\5.12.12\mingw73_64\include\QtWidgets -IC:\Qt\Qt5.12.12\5.12.12\mingw73_64\include\QtGui -IC:\Qt\Qt5.12.12\5.12.12\mingw73_64\include\QtANGLE -IC:\Qt\Qt5.12.12\5.12.12\mingw73_64\include\QtSql -IC:\Qt\Qt5.12.12\5.12.12\mingw73_64\include\QtCore -Irelease -I/include -IC:\Qt\Qt5.12.12\5.12.12\mingw73_64\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -Wl,-subsystem,console -mthreads
@@ -110,7 +110,7 @@ compiler_moc_predefs_make_all: release/moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) release\moc_predefs.h
 release/moc_predefs.h: C:/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/features/data/dummy.cpp
-	g++ -fno-keep-inline-dllexport -O2 -std=gnu++11 -Wall -W -Wextra -dM -E -o release\moc_predefs.h C:\Qt\Qt5.12.12\5.12.12\mingw73_64\mkspecs\features\data\dummy.cpp
+	g++ -fno-keep-inline-dllexport -O2 -O2 -std=gnu++11 -Wall -W -Wextra -dM -E -o release\moc_predefs.h C:\Qt\Qt5.12.12\5.12.12\mingw73_64\mkspecs\features\data\dummy.cpp
 
 compiler_moc_header_make_all: release/moc_okno.cpp release/moc_secondwindow.cpp
 compiler_moc_header_clean:
@@ -219,9 +219,28 @@ release/moc_okno.cpp: ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qfiledevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qvector2d.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtouchdevice.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QDialog \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qdialog.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/QCloseEvent \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/QMovie \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qmovie.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qimagereader.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qimageiohandler.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qplugin.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpointer.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qjsonobject.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qfactoryinterface.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QTimer \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qtimer.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qbasictimer.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QPropertyAnimation \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpropertyanimation.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvariantanimation.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qeasingcurve.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qabstractanimation.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/bin/moc.exe
 	C:\Qt\Qt5.12.12\5.12.12\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/home/Desktop/qq/build-Progect-Desktop_Qt_5_12_12_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/win32-g++ -IC:/Users/home/Desktop/qq/Progect -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtANGLE -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtSql -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore -I. -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Qt5.12.12/Tools/mingw730_64/x86_64-w64-mingw32/include ..\Progect\okno.h -o release\moc_okno.cpp
@@ -536,7 +555,13 @@ release/main.o: ../Progect/main.cpp C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/Q
 		../Progect/secondwindow.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QDialog \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qdialog.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/QCloseEvent
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/QCloseEvent \
+		../Progect/okno.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QPropertyAnimation \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpropertyanimation.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvariantanimation.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qeasingcurve.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qabstractanimation.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o ..\Progect\main.cpp
 
 release/okno.o: ../Progect/okno.cpp ../Progect/okno.h \
@@ -643,9 +668,30 @@ release/okno.o: ../Progect/okno.cpp ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qfiledevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qvector2d.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtouchdevice.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QDialog \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qdialog.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/QCloseEvent
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/QMovie \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qmovie.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qimagereader.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qimageiohandler.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qplugin.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpointer.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qjsonobject.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qfactoryinterface.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QTimer \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qtimer.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qbasictimer.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QPropertyAnimation \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpropertyanimation.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvariantanimation.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qeasingcurve.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qabstractanimation.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QEvent \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\okno.o ..\Progect\okno.cpp
 
 release/secondwindow.o: ../Progect/secondwindow.cpp ../Progect/secondwindow.h \
