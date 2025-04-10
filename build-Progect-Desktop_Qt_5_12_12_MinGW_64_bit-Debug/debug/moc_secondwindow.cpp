@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SecondWindow_t {
-    QByteArrayData data[3];
-    char stringdata0[21];
+    QByteArrayData data[8];
+    char stringdata0[101];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,10 +33,17 @@ static const qt_meta_stringdata_SecondWindow_t qt_meta_stringdata_SecondWindow =
     {
 QT_MOC_LITERAL(0, 0, 12), // "SecondWindow"
 QT_MOC_LITERAL(1, 13, 6), // "closed"
-QT_MOC_LITERAL(2, 20, 0) // ""
+QT_MOC_LITERAL(2, 20, 0), // ""
+QT_MOC_LITERAL(3, 21, 14), // "onDataReceived"
+QT_MOC_LITERAL(4, 36, 14), // "onLoginClicked"
+QT_MOC_LITERAL(5, 51, 14), // "onStateChanged"
+QT_MOC_LITERAL(6, 66, 28), // "QAbstractSocket::SocketState"
+QT_MOC_LITERAL(7, 95, 5) // "state"
 
     },
-    "SecondWindow\0closed\0"
+    "SecondWindow\0closed\0\0onDataReceived\0"
+    "onLoginClicked\0onStateChanged\0"
+    "QAbstractSocket::SocketState\0state"
 };
 #undef QT_MOC_LITERAL
 
@@ -46,7 +53,7 @@ static const uint qt_meta_data_SecondWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -54,10 +61,20 @@ static const uint qt_meta_data_SecondWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   19,    2, 0x06 /* Public */,
+       1,    0,   34,    2, 0x06 /* Public */,
+
+ // slots: name, argc, parameters, tag, flags
+       3,    0,   35,    2, 0x08 /* Private */,
+       4,    0,   36,    2, 0x08 /* Private */,
+       5,    1,   37,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
+
+ // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 6,    7,
 
        0        // eod
 };
@@ -69,7 +86,21 @@ void SecondWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->closed(); break;
+        case 1: _t->onDataReceived(); break;
+        case 2: _t->onLoginClicked(); break;
+        case 3: _t->onStateChanged((*reinterpret_cast< QAbstractSocket::SocketState(*)>(_a[1]))); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+        case 3:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QAbstractSocket::SocketState >(); break;
+            }
+            break;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
@@ -81,7 +112,6 @@ void SecondWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
             }
         }
     }
-    Q_UNUSED(_a);
 }
 
 QT_INIT_METAOBJECT const QMetaObject SecondWindow::staticMetaObject = { {
@@ -113,13 +143,13 @@ int SecondWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 4;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        if (_id < 4)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 4;
     }
     return _id;
 }

@@ -251,6 +251,7 @@ Makefile: ../Progect/Progect.pro C:/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/win3
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Widgets.prl \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Gui.prl \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Sql.prl \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Network.prl \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Core.prl
 	$(QMAKE) -o Makefile ..\Progect\Progect.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 C:/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/features/spec_pre.prf:
@@ -441,6 +442,7 @@ C:/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/features/lex.prf:
 C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Widgets.prl:
 C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Gui.prl:
 C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Sql.prl:
+C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Network.prl:
 C:/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/Qt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\Progect\Progect.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"

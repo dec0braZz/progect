@@ -1,0 +1,11 @@
+release/ColorPalette.o
+release/main.o
+release/okno.o
+release/secondwindow.o
+release/secondwindowregistr.o
+release/setting.o
+release/moc_ColorPalette.o
+release/moc_okno.o
+release/moc_secondwindow.o
+release/moc_secondwindowregistr.o
+release/moc_setting.o

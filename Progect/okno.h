@@ -6,6 +6,8 @@
 #include <QMovie>
 #include <QTimer>
 #include <QPropertyAnimation>
+#include "setting.h"
+#include"ColorPalette.h"
 
 class OKNO : public QWidget {
     Q_OBJECT
@@ -14,32 +16,29 @@ public:
     void openOKNO();
     ~OKNO();
 protected:
+    void mousePressEvent(QMouseEvent* event);
     void closeEvent(QCloseEvent *event) override{
 
     }
-    bool eventFilter(QObject *obj, QEvent *event) override;
-
+private: Setting* settingWindow;
 private slots:
     void onButtonHovered(){
 
     }
-    void onButtonClicked(){
-
-    }
-    void onTimerTimeout();
+    void onButtonClicked(){}
 
 private:
     QLabel *mesage;
     QLabel *grupa;
     QLabel *seting;
     QLabel *profile;
-
-    QMovie *movie;
-    QMovie *movieGrupa;
-    QMovie *movieSeting;
-    QMovie *movieProfile;
     QTimer *timer;
     QPropertyAnimation *animation;
+    QPropertyAnimation *animationToFinal;
+        QPropertyAnimation *animationToFinalGrupa;
+        QPropertyAnimation *animationToFinalseting;
+        QPropertyAnimation *animationToFinalprofile;
+
 signals:
     void closed();
 };

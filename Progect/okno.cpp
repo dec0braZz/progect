@@ -1,10 +1,18 @@
 #include "okno.h"
+#include"ColorPalette.h"
 #include <QEvent>
 #include <QMovie>
 #include <QTimer>
 #include <QWidget>
 #include <QPropertyAnimation>
 #include <QDebug>
+#include "setting.h"
+#include <QMouseEvent>
+
+const QString IPHONE_PATH = "C:/Users/home/Desktop/qq/icons/ipone.gif";
+const QString GRUPA_PATH = "C:/Users/home/Desktop/qq/icons/grupa.gif";
+const QString SETING_PATH = "C:/Users/home/Desktop/qq/icons/seting.gif";
+const QString PROFILE_PATH = "C:/Users/home/Desktop/qq/icons/profile.gif";
 
 OKNO::OKNO(QWidget *parent)
     : QWidget(parent),
@@ -12,41 +20,32 @@ OKNO::OKNO(QWidget *parent)
       grupa(new QLabel(this)),
       seting(new QLabel(this)),
       profile(new QLabel(this)),
-      movie(new QMovie("C:/Users/home/Desktop/qq/icons/ipone.gif")),
-      movieGrupa(new QMovie("C:/Users/home/Desktop/qq/icons/grupa.gif")),
-      movieSeting(new QMovie("C:/Users/home/Desktop/qq/icons/seting.gif")),
-      movieProfile(new QMovie("C:/Users/home/Desktop/qq/icons/profile.gif")),
       timer(new QTimer(this)) {
 
-    // Проверка загрузки анимаций
-    if (!movie->isValid() || !movieGrupa->isValid() || !movieSeting->isValid()) {
-        qDebug() << "Ошибка загрузки GIF-файлов!";
-    }
-
-    // Настройки окна
     setWindowTitle("KLOZ");
     setStyleSheet("background-color: grey;");
     resize(1280, 640);
 
-    //Настройка для "profile"
+    // Настройка для "profile"
     profile->setGeometry(500, 250, 120, 45);
     profile->setStyleSheet("border-radius: 40px;");
-    profile->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/profile.gif"));
+    profile->setPixmap(QPixmap(PROFILE_PATH));
     profile->setAlignment(Qt::AlignCenter);
     profile->setScaledContents(true);
     profile->installEventFilter(this);
+
     // Настройки для 'mesage' Hover Фрейм
     mesage->setGeometry(500, 70, 120, 45);
     mesage->setStyleSheet("border-radius: 40px;");
-    mesage->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/ipone.gif"));
+    mesage->setPixmap(QPixmap(IPHONE_PATH));
     mesage->setAlignment(Qt::AlignCenter);
     mesage->setScaledContents(true);
     mesage->installEventFilter(this);
 
     // Настройки для 'grupa'
     grupa->setGeometry(500, 130, 120, 45);
-    grupa->setStyleSheet(mesage->styleSheet());
-    grupa->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/grupa.gif"));
+    grupa->setStyleSheet("border-radius: 40px;");
+    grupa->setPixmap(QPixmap(GRUPA_PATH));
     grupa->setAlignment(Qt::AlignCenter);
     grupa->setScaledContents(true);
     grupa->installEventFilter(this);
@@ -54,12 +53,10 @@ OKNO::OKNO(QWidget *parent)
     // Настройки для 'seting'
     seting->setGeometry(500, 190, 120, 45);
     seting->setStyleSheet("border-radius: 40px;");
-    seting->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/seting.gif"));
+    seting->setPixmap(QPixmap(SETING_PATH));
     seting->setAlignment(Qt::AlignCenter);
     seting->setScaledContents(true);
     seting->installEventFilter(this);
-
-
 
     // Анимация
     auto animationToFinal = new QPropertyAnimation(mesage, "geometry");
@@ -89,52 +86,19 @@ OKNO::OKNO(QWidget *parent)
         animationToFinalprofile->start(QAbstractAnimation::DeleteWhenStopped);
     });
 
-    connect(timer, &QTimer::timeout, this, &OKNO::onTimerTimeout);
+    timer->setSingleShot(true);
 }
-
-bool OKNO::eventFilter(QObject *obj, QEvent *event) {
-    if (obj == mesage || obj == grupa || obj == seting || obj == profile) {
-        if (event->type() == QEvent::Enter) {
-            QLabel *target = qobject_cast<QLabel*>(obj);
-            if (target) {
-                if (obj == mesage) {
-                    target->setMovie(movie);
-                    movie->start();
-                } else if (obj == grupa) {
-                    target->setMovie(movieGrupa);
-                    movieGrupa->start();
-                } else if (obj == profile) {
-                    target->setMovie(movieProfile);
-                    movieProfile->start();
-                } else if (obj == seting) {
-                    target->setMovie(movieSeting);
-                    movieSeting->start();
-                }
-                timer->stop();
-            }
-        } else if (event->type() == QEvent::Leave) {
-            timer->start(2000); // Задержка 2 секунды после нажатия
-        } else if (event->type() == QEvent::MouseButtonPress) {
-            close();
+void OKNO::mousePressEvent(QMouseEvent *event) {
+    //  проверяем, была ли нажата кнопка 'seting'
+    if (event->button() == Qt::LeftButton) {
+        if (seting->geometry().contains(event->pos())) {
+            // Открываем окно настроек
+            Setting *settingWindow = new Setting();
+            settingWindow->show();
         }
     }
-    return QWidget::eventFilter(obj, event);
-}
-
-void OKNO::onTimerTimeout() {
-    movie->stop();
-    movieGrupa->stop();
-    movieSeting->stop();
-    movieProfile->stop();
-    mesage->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/ipone.gif"));
-    grupa->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/grupa.gif"));
-    seting->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/seting.gif"));
-    profile->setPixmap(QPixmap("C:/Users/home/Desktop/qq/icons/profile.gif"));
+    QWidget::mousePressEvent(event);
 }
 
 OKNO::~OKNO() {
-    delete movie;
-    delete movieGrupa;
-    delete movieSeting;
-    delete movieProfile;
 }

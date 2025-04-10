@@ -8,7 +8,9 @@
 #include <QVBoxLayout>
 #include <QMainWindow>
 #include "secondwindow.h"
+#include "secondwindowregistr.h"
 #include"okno.h"
+#include "ColorPalette.h"
 class MainWindow : public QMainWindow {
 public:
     MainWindow() {
@@ -47,6 +49,7 @@ int main(int argc, char *argv[]) {
 
 
     SecondWindow *secWind = new SecondWindow;//память для регестрационного окна
+    SecondWindowRegistr * secWindregistr = new SecondWindowRegistr;//память для регестрации
     QPushButton Login("Login", window); // Указываем текст кнопки и родительский виджет
     Login.setGeometry(500, 650, 200, 50);
     Login.setStyleSheet("border-radius: 10px;"); // 10px - радиус скругления
@@ -79,6 +82,7 @@ int main(int argc, char *argv[]) {
            Registr.hide();
            registrGif->show();
            registrMovie->start();
+           secWindregistr->show(); //это от регестрации
     });
     // Автоматический возврат кнопки при закрытии окна
     QObject::connect(secWind, &SecondWindow::closed, [&]() {
@@ -89,9 +93,9 @@ int main(int argc, char *argv[]) {
     });
     // Отображаем главное окно (show)
     window->show();
-    //Выделение памяти
+    //Выделение памяти для окна
     OKNO *okno = new OKNO();
-    okno->show();
-    //доделать if когда будет гифка логин и регистр
+      okno->show();
+     //доделать if когда будет гифка логин и регистр
     return app.exec();
 }
