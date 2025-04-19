@@ -13,6 +13,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QLineEdit>
+#include <QNetworkAccessManager>
 class SecondWindow : public QDialog {
     Q_OBJECT
 public:
@@ -29,6 +30,7 @@ private:
     QLineEdit *passwordEdit;
     QPushButton *loginButton;
     QLabel *statusLabel;
+    QNetworkAccessManager *networkManager;
 
 private slots:
     void onDataReceived();

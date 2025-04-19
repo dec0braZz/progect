@@ -21,9 +21,11 @@ public:
     explicit SecondWindowRegistr(QWidget *parent = nullptr);
     void sendRegistrationData(const QString &email, const QString &username, const QString &password);
 private:
+    QTcpSocket *socket;
     QLineEdit *emailEdit;
     QLineEdit *usernameEdit;
     QLineEdit *passwordEdit;
+    QNetworkAccessManager *networkManager;
     QString email;      // Email пользователя
     QString username;
     QString password;

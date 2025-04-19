@@ -1,9 +1,9 @@
 #include "secondwindowregistr.h"
+#include <QDebug>
 
 SecondWindowRegistr::SecondWindowRegistr(QWidget *parent) : QDialog(parent) {
     setWindowTitle("Регистрация");
     resize(300, 200); // Устанавливаем размер окна
-
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     // Элементы ввода
@@ -38,8 +38,10 @@ SecondWindowRegistr::SecondWindowRegistr(QWidget *parent) : QDialog(parent) {
             QMessageBox::warning(this, "Ошибка", "Пожалуйста, заполните все поля.");
             return;
         }
+        sendRegistrationData(email, username,password);
         QMessageBox::information(this, "Успех", "Регистрация прошла успешно!");
         this->accept(); // Закрыть окно после успешной регистрации
+
     });
 
     setLayout(layout); // Устанавливаем layout
@@ -50,6 +52,7 @@ void SecondWindowRegistr::sendRegistrationData(const QString &email, const QStri
 
     // Создаем JSON объект для отправки на сервер
     QJsonObject json;
+    json["command"] = "REGISTER";
     json["email"] = email;
     json["username"] = username;
     json["password"] = password;
@@ -57,8 +60,12 @@ void SecondWindowRegistr::sendRegistrationData(const QString &email, const QStri
     // Преобразуем JSON объект в QByteArray
     QJsonDocument jsonDoc(json);
     QByteArray jsonData = jsonDoc.toJson();
-
+    QString mesage = QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Compact));
     QUrl url("http://127.0.0.1:1234/register"); // URL вашего локального сервера
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    qDebug() << "Отправлен соо на сервер" << QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Compact));
+    // Отправляем POST запрос с JSON данными
+       networkManager->post(request, jsonData);
 }
+

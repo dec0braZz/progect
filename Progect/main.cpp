@@ -95,7 +95,6 @@ int main(int argc, char *argv[]) {
     window->show();
     //Выделение памяти для окна
     OKNO *okno = new OKNO();
-      okno->show();
      //доделать if когда будет гифка логин и регистр
     return app.exec();
 }
