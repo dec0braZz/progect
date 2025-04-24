@@ -9,11 +9,13 @@
 #include <QVBoxLayout>
 #include <QSettings>
 #include "ColorPalette.h"
+#include  <QJsonObject>
+#include <QJsonDocument>
+#include <QTcpSocket>
 class Setting : public QDialog{
     Q_OBJECT
 public:
-
-    explicit Setting (QWidget *parent = nullptr);
+     Setting(QSharedPointer<QTcpSocket> sharedSocket, const QString& username, QWidget* parent = nullptr);
     void toggleColorPalette();
     void openSetting();
     void on_colorButton_clicked();
@@ -24,7 +26,14 @@ private slots:
 private:
      QPushButton *colorButton;
      ColorPalette* colorPalette;
+     QString currentUsername;
+
+     QSharedPointer<QTcpSocket> socket;
+public slots:
+     void loadSettingsFromServer();
 protected:
+     void sendSettingsToServer(const QString &username, const QString &bgColor, const QString &textColor);
+     void setCurrentUsername(const QString &username);
 signals:
     void colorsChanged(const QColor &background, const QColor &text);
     void closed();

@@ -1,5 +1,6 @@
 #include "secondwindow.h"
 #include "okno.h"
+#include "setting.h"
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
@@ -13,9 +14,10 @@
 
 SecondWindow::SecondWindow(QWidget *parent)
     : QDialog(parent),
-      socket(new QTcpSocket(this)),
+
       networkManager(new QNetworkAccessManager(this)) // Инициализируем networkManager
 {
+    socket = QSharedPointer<QTcpSocket>(new QTcpSocket(this));
     setWindowTitle("Авторизация");
     resize(600, 400);
 
@@ -35,8 +37,8 @@ SecondWindow::SecondWindow(QWidget *parent)
     layout->addWidget(statusLabel);
 
     connect(loginButton, &QPushButton::clicked, this, &SecondWindow::onLoginClicked);
-    connect(socket, &QTcpSocket::readyRead, this, &SecondWindow::onDataReceived);
-    connect(socket, &QTcpSocket::stateChanged, this, &SecondWindow::onStateChanged);
+    connect(socket.data(), &QTcpSocket::readyRead, this, &SecondWindow::onDataReceived);
+    connect(socket.data(), &QTcpSocket::stateChanged, this, &SecondWindow::onStateChanged);
 
     // Подключаем к серверу
     socket->connectToHost("127.0.0.1", 1234);
@@ -73,9 +75,14 @@ void SecondWindow::onDataReceived() {
         if (jsonResponse["status"].toString() == "SUCCESS") {
             statusLabel->setText("Вход успешен");
             statusLabel->setStyleSheet("color: green;");
-
+//тихо забираем username для сохранения setting
+            QString username = usernameEdit->text();
+            setting = new Setting(socket, username, this); // Передаем socket как QSharedPointer
             // Показать следующее окно
-            OKNO *okno = new OKNO();
+            OKNO *okno = new OKNO(setting, this); // Передаем setting в OKNO
+          //  connect(okno, &OKNO::openSettings, setting, &Setting::show);
+           // connect(okno, &OKNO::openSettings, setting, &Setting::loadSettingsFromServer); // Загружаем настройки после открытия
+
             okno->show();
             this->accept();
         } else if (jsonResponse["status"].toString() == "ERROR") {
@@ -114,7 +121,8 @@ void SecondWindow::onStateChanged(QAbstractSocket::SocketState state) {
 }
 
 SecondWindow::~SecondWindow() {
-delete socket; // Обязательно удаляем сокет
+// Обязательно удаляем сокет а не надо потому что там поинт
+delete setting;
 }
 
 void SecondWindow::closeEvent(QCloseEvent *event) {

@@ -16,7 +16,8 @@ SOURCES += \
         okno.cpp \
         secondwindow.cpp \
         secondwindowregistr.cpp \
-        setting.cpp
+        setting.cpp \
+        socket.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -28,4 +29,5 @@ HEADERS += \
     okno.h \
     secondwindow.h \
     secondwindowregistr.h \
-    setting.h
+    setting.h \
+    socket.h

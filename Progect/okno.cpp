@@ -8,20 +8,19 @@
 #include <QDebug>
 #include "setting.h"
 #include <QMouseEvent>
-
+#include "socket.h"
 const QString IPHONE_PATH = "C:/Users/home/Desktop/qq/icons/ipone.gif";
 const QString GRUPA_PATH = "C:/Users/home/Desktop/qq/icons/grupa.gif";
 const QString SETING_PATH = "C:/Users/home/Desktop/qq/icons/seting.gif";
 const QString PROFILE_PATH = "C:/Users/home/Desktop/qq/icons/profile.gif";
 
-OKNO::OKNO(QWidget *parent)
-    : QWidget(parent),
+OKNO::OKNO(Setting* setting, QWidget *parent) : QWidget(parent), m_setting(setting),
       mesage(new QLabel(this)),
       grupa(new QLabel(this)),
       seting(new QLabel(this)),
       profile(new QLabel(this)),
       timer(new QTimer(this)) {
-
+     socketObj = new Socket(this);  // создаём объект Socket
     setWindowTitle("KLOZ");
     setStyleSheet("background-color: grey;");
     resize(1280, 640);
@@ -93,8 +92,7 @@ void OKNO::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         if (seting->geometry().contains(event->pos())) {
             // Открываем окно настроек
-            Setting *settingWindow = new Setting();
-            settingWindow->show();
+                        m_setting->show();
         }
     }
     QWidget::mousePressEvent(event);

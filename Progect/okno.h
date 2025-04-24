@@ -8,11 +8,14 @@
 #include <QPropertyAnimation>
 #include "setting.h"
 #include"ColorPalette.h"
+#include <QTcpSocket>
+#include <socket.h>
 
 class OKNO : public QWidget {
     Q_OBJECT
 public:
-    explicit OKNO(QWidget *parent = nullptr);
+     explicit OKNO(Setting* setting, QWidget *parent = nullptr);
+
     void openOKNO();
     ~OKNO();
 protected:
@@ -20,7 +23,8 @@ protected:
     void closeEvent(QCloseEvent *event) override{
 
     }
-private: Setting* settingWindow;
+private:
+    Setting* m_setting;
 private slots:
     void onButtonHovered(){
 
@@ -28,6 +32,7 @@ private slots:
     void onButtonClicked(){}
 
 private:
+    Socket *socketObj;
     QLabel *mesage;
     QLabel *grupa;
     QLabel *seting;
@@ -40,6 +45,7 @@ private:
         QPropertyAnimation *animationToFinalprofile;
 
 signals:
+    void openSettings();
     void closed();
 };
 
