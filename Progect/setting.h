@@ -19,6 +19,7 @@ public:
     void toggleColorPalette();
     void openSetting();
     void on_colorButton_clicked();
+    void applyColors(const QJsonObject &colorsObj);
 private slots:
     void openColorPalette();
     void closeColorPalette();

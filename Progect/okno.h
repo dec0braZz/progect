@@ -10,6 +10,12 @@
 #include"ColorPalette.h"
 #include <QTcpSocket>
 #include <socket.h>
+#include <QToolBar>
+#include <QMenu>
+#include <QMenuBar>
+#include <QAction>
+#include <QListWidget>
+#include <QDialog>
 
 class OKNO : public QWidget {
     Q_OBJECT
@@ -19,7 +25,6 @@ public:
     void openOKNO();
     ~OKNO();
 protected:
-    void mousePressEvent(QMouseEvent* event);
     void closeEvent(QCloseEvent *event) override{
 
     }
@@ -30,20 +35,21 @@ private slots:
 
     }
     void onButtonClicked(){}
-
+void showSetting();
+void showGroupActions();//обьеденение
 private:
     Socket *socketObj;
     QLabel *mesage;
     QLabel *grupa;
     QLabel *seting;
     QLabel *profile;
-    QTimer *timer;
     QPropertyAnimation *animation;
     QPropertyAnimation *animationToFinal;
         QPropertyAnimation *animationToFinalGrupa;
         QPropertyAnimation *animationToFinalseting;
         QPropertyAnimation *animationToFinalprofile;
-
+        QListWidget* friendsList;
+            QListWidget* addFriendList;
 signals:
     void openSettings();
     void closed();

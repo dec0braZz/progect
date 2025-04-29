@@ -14,7 +14,25 @@ Setting::Setting(QSharedPointer<QTcpSocket> sharedSocket, const QString& usernam
     connect(colorButton, &QPushButton::clicked, this, &Setting::on_colorButton_clicked);
 
     colorPalette = nullptr; // Инициализация указателя на палитру
+
+    loadSettingsFromServer();
 }
+void Setting::applyColors(const QJsonObject &colorsObj) {
+    // Пример: в JSON приходят цвета в формате #RRGGBB
+    if (colorsObj.contains("background") && colorsObj["background"].isString()) {
+        this->setStyleSheet(QString("background-color: %1;").arg(colorsObj["background"].isString()));
+    }
+
+    if (colorsObj.contains("text") && colorsObj["text"].isString()) {
+        this->setStyleSheet(QString("color: %1;").arg(colorsObj["text"].isString()));
+    }
+
+
+    // Здесь можно добавить остальные цвета и логику их применения
+
+    // После установки можно обновить интерфейс или сохранить настройки
+}
+
 void Setting::setCurrentUsername(const QString &username) {
     currentUsername = username;
     qDebug() << "Current username set to:" << currentUsername;

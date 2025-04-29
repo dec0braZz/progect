@@ -16,6 +16,8 @@ SecondWindow::SecondWindow(QWidget *parent)
     : QDialog(parent),
 
       networkManager(new QNetworkAccessManager(this)) // Инициализируем networkManager
+
+
 {
     socket = QSharedPointer<QTcpSocket>(new QTcpSocket(this));
     setWindowTitle("Авторизация");
@@ -79,13 +81,25 @@ void SecondWindow::onDataReceived() {
             QString username = usernameEdit->text();
             setting = new Setting(socket, username, this); // Передаем socket как QSharedPointer
             // Показать следующее окно
-            OKNO *okno = new OKNO(setting, this); // Передаем setting в OKNO
+            OKNO *okno = new OKNO(setting, nullptr);
+             // Передаем setting в OKNO
           //  connect(okno, &OKNO::openSettings, setting, &Setting::show);
            // connect(okno, &OKNO::openSettings, setting, &Setting::loadSettingsFromServer); // Загружаем настройки после открытия
-
             okno->show();
-            this->accept();
-        } else if (jsonResponse["status"].toString() == "ERROR") {
+            this->hide();
+        }
+        else if(jsonResponse["Setting load"].toString() == "SUCCESS"){
+                    // Проверяем есть ли объект settings
+            if (jsonResponse.contains("settings") && jsonResponse["settings"].isObject()) {
+                QJsonObject settingsObj = jsonResponse["settings"].toObject();
+                // Предположим, что в settingsObj есть поле "colors" с объектом цветов
+                if (settingsObj.contains("backgroundColor")) {
+                        setting->applyColors(settingsObj);
+                    }
+
+            }
+        }
+         else if (jsonResponse["status"].toString() == "ERROR") {
             statusLabel->setText("Неверное имя пользователя или пароль");
             statusLabel->setStyleSheet("color: red;");
         }
@@ -122,7 +136,7 @@ void SecondWindow::onStateChanged(QAbstractSocket::SocketState state) {
 
 SecondWindow::~SecondWindow() {
 // Обязательно удаляем сокет а не надо потому что там поинт
-delete setting;
+    delete setting;
 }
 
 void SecondWindow::closeEvent(QCloseEvent *event) {

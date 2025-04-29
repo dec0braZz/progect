@@ -13,90 +13,78 @@ const QString IPHONE_PATH = "C:/Users/home/Desktop/qq/icons/ipone.gif";
 const QString GRUPA_PATH = "C:/Users/home/Desktop/qq/icons/grupa.gif";
 const QString SETING_PATH = "C:/Users/home/Desktop/qq/icons/seting.gif";
 const QString PROFILE_PATH = "C:/Users/home/Desktop/qq/icons/profile.gif";
-
 OKNO::OKNO(Setting* setting, QWidget *parent) : QWidget(parent), m_setting(setting),
-      mesage(new QLabel(this)),
-      grupa(new QLabel(this)),
-      seting(new QLabel(this)),
-      profile(new QLabel(this)),
-      timer(new QTimer(this)) {
-     socketObj = new Socket(this);  // создаём объект Socket
+    mesage(new QLabel(this)),
+    grupa(new QLabel(this)),
+    seting(new QLabel(this)),
+    profile(new QLabel(this)) {
+    socketObj = new Socket(this);  // создаём объект Socket
     setWindowTitle("KLOZ");
     setStyleSheet("background-color: grey;");
     resize(1280, 640);
+    QMenuBar* menuBar = new QMenuBar(this);
+    QToolBar* toolBar = new QToolBar(this);
 
-    // Настройка для "profile"
-    profile->setGeometry(500, 250, 120, 45);
-    profile->setStyleSheet("border-radius: 40px;");
-    profile->setPixmap(QPixmap(PROFILE_PATH));
-    profile->setAlignment(Qt::AlignCenter);
-    profile->setScaledContents(true);
-    profile->installEventFilter(this);
+    // Создаем горизонтальный layout
+    QHBoxLayout* layout = new QHBoxLayout();  // Изменили на горизонтальный
+    layout->setSpacing(10); // расстояние между элементами
+    layout->setContentsMargins(0, 0, 0, 0); // отступы
+    toolBar->setLayout(layout); // Устанавливаем layout для toolBar
+    toolBar->setGeometry(0, 0, width(), 80);  // Изменили высоту на 50
 
-    // Настройки для 'mesage' Hover Фрейм
-    mesage->setGeometry(500, 70, 120, 45);
-    mesage->setStyleSheet("border-radius: 40px;");
-    mesage->setPixmap(QPixmap(IPHONE_PATH));
-    mesage->setAlignment(Qt::AlignCenter);
-    mesage->setScaledContents(true);
-    mesage->installEventFilter(this);
-
-    // Настройки для 'grupa'
-    grupa->setGeometry(500, 130, 120, 45);
-    grupa->setStyleSheet("border-radius: 40px;");
-    grupa->setPixmap(QPixmap(GRUPA_PATH));
-    grupa->setAlignment(Qt::AlignCenter);
-    grupa->setScaledContents(true);
-    grupa->installEventFilter(this);
-
-    // Настройки для 'seting'
-    seting->setGeometry(500, 190, 120, 45);
-    seting->setStyleSheet("border-radius: 40px;");
-    seting->setPixmap(QPixmap(SETING_PATH));
-    seting->setAlignment(Qt::AlignCenter);
-    seting->setScaledContents(true);
-    seting->installEventFilter(this);
-
-    // Анимация
-    auto animationToFinal = new QPropertyAnimation(mesage, "geometry");
-    animationToFinal->setDuration(1000);
-    animationToFinal->setStartValue(QRect(500, 70, 120, 45));
-    animationToFinal->setEndValue(QRect(50, 30, 120, 45));
-
-    auto animationToFinalGrupa = new QPropertyAnimation(grupa, "geometry");
-    animationToFinalGrupa->setDuration(1000);
-    animationToFinalGrupa->setStartValue(QRect(500, 130, 120, 45));
-    animationToFinalGrupa->setEndValue(QRect(50, 120, 120, 45));
-
-    auto animationToFinalseting = new QPropertyAnimation(seting, "geometry");
-    animationToFinalseting->setDuration(1000);
-    animationToFinalseting->setStartValue(QRect(500, 190, 120, 45));
-    animationToFinalseting->setEndValue(QRect(50, 210, 120, 45));
-
-    auto animationToFinalprofile = new QPropertyAnimation(profile, "geometry");
-    animationToFinalprofile->setDuration(1500);
-    animationToFinalprofile->setStartValue(QRect(500, 250, 120, 45));
-    animationToFinalprofile->setEndValue(QRect(50, 500, 120, 45));
-
-    QTimer::singleShot(3000, [=]() {
-        animationToFinal->start(QAbstractAnimation::DeleteWhenStopped);
-        animationToFinalGrupa->start(QAbstractAnimation::DeleteWhenStopped);
-        animationToFinalseting->start(QAbstractAnimation::DeleteWhenStopped);
-        animationToFinalprofile->start(QAbstractAnimation::DeleteWhenStopped);
-    });
-
-    timer->setSingleShot(true);
-}
-void OKNO::mousePressEvent(QMouseEvent *event) {
-    //  проверяем, была ли нажата кнопка 'seting'
-    if (event->button() == Qt::LeftButton) {
-        if (seting->geometry().contains(event->pos())) {
-            // Открываем окно настроек
-                        m_setting->show();
-        }
+    // Стили для кнопок
+    toolBar->setStyleSheet(R"(
+    QToolButton {
+        min-height: 40px;
+        min-width: 50px;
+        font-size: 14pt;
+        padding: 10px;
     }
-    QWidget::mousePressEvent(event);
+    )");
+
+    // Создаем действия
+    QAction* messageAction = new QAction(QIcon(IPHONE_PATH), " Сообщения ", this);
+    QAction* groupAction = new QAction(QIcon(GRUPA_PATH), " Группы ", this);
+    QAction* settingsAction = new QAction(QIcon(SETING_PATH), " Настройки ", this);
+    QAction* profileAction = new QAction(QIcon(PROFILE_PATH), " Профиль ", this);
+
+    // Добавляем действия в тулбар
+    toolBar->addAction(messageAction);
+    toolBar->addAction(groupAction);
+    toolBar->addAction(settingsAction);
+    toolBar->addAction(profileAction);
+
+    // Подключаем сигналы
+    connect(groupAction, &QAction::triggered, this, &OKNO::showGroupActions);
+    connect(settingsAction, &QAction::triggered, this, &OKNO::showSetting);
 }
+
+void OKNO::showGroupActions() {
+    // Сначала проверяем, существуют ли уже списки
+    if (!friendsList) {
+        friendsList = new QListWidget(this);
+        friendsList->setGeometry(1000, 0, 280, 640);
+        friendsList->setStyleSheet("background-color: white;");
+        friendsList->addItem("Друг 1");
+        friendsList->addItem("Друг 2");
+        friendsList->addItem("Друг 3");
+    }
+    friendsList->show();
+
+    if (!addFriendList) {
+        addFriendList = new QListWidget(this);
+        addFriendList->setGeometry(500, 200, 400, 300);
+        addFriendList->setWindowTitle("Добавить друга");
+    }
+    addFriendList->show();
+}
+void OKNO::showSetting(){
+    m_setting->show();
+}
+
 
 OKNO::~OKNO() {
+    delete friendsList;
+    delete addFriendList;
+    delete socketObj;
 }

@@ -11,7 +11,10 @@
 #include "secondwindowregistr.h"
 #include"okno.h"
 #include "ColorPalette.h"
+#include "setting.h"
 class MainWindow : public QMainWindow {
+private:
+
 public:
     MainWindow() {
         QLabel *imageLabel = new QLabel(this); // Создаем QLabel
@@ -94,7 +97,12 @@ int main(int argc, char *argv[]) {
     // Отображаем главное окно (show)
     window->show();
     //Выделение памяти для окна
-    OKNO *okno = new OKNO();
+    // Показать следующее окно
+   // Setting *setting = nullptr;
+ //   QSharedPointer<QTcpSocket> socket;
+
+  //   setting = new Setting(socket, username, this); // Передаем socket как QSharedPointer
+   //  OKNO *okno = new OKNO(setting, this);
      //доделать if когда будет гифка логин и регистр
     return app.exec();
 }
