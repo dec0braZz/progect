@@ -24,26 +24,30 @@ OKNO::OKNO(Setting* setting, QWidget *parent) : QWidget(parent), m_setting(setti
     resize(1280, 640);
     QMenuBar* menuBar = new QMenuBar(this);
     QToolBar* toolBar = new QToolBar(this);
+    toolBar->setOrientation(Qt::Vertical);  // Вертикальная ориентация
 
-    // Создаем горизонтальный layout
-    QHBoxLayout* layout = new QHBoxLayout();  // Изменили на горизонтальный
-    layout->setSpacing(10); // расстояние между элементами
-    layout->setContentsMargins(0, 0, 0, 0); // отступы
-    toolBar->setLayout(layout); // Устанавливаем layout для toolBar
-    toolBar->setGeometry(0, 0, width(), 80);  // Изменили высоту на 50
-
-    // Стили для кнопок
+    toolBar->setMovable(true);
+    toolBar->setFloatable(true);
+    toolBar->setGeometry(0, 0, 150, height());  // например, узкая и высокая панель
+    toolBar->layout()->setSpacing(70);
+    toolBar->setIconSize(QSize(64, 64));  // Устанавливаем размер иконок у тулбара
+   // toolBar->setContentsMargins(10, 10, 10, 10);
     toolBar->setStyleSheet(R"(
-    QToolButton {
-        min-height: 40px;
-        min-width: 50px;
-        font-size: 14pt;
-        padding: 10px;
-    }
+        QToolButton {
+
+            min-height: 40px;
+            min-width: 100px;
+            font-size: 14pt;
+            padding: 10px;
+
+
+        }
     )");
 
+
     // Создаем действия
-    QAction* messageAction = new QAction(QIcon(IPHONE_PATH), " Сообщения ", this);
+    QAction* messageAction = new QAction(QIcon(IPHONE_PATH), " Быстрый набор ", this);
+    // Не работает messageAction->setIconSize(QSize(64, 64));  // задать размер иконки
     QAction* groupAction = new QAction(QIcon(GRUPA_PATH), " Группы ", this);
     QAction* settingsAction = new QAction(QIcon(SETING_PATH), " Настройки ", this);
     QAction* profileAction = new QAction(QIcon(PROFILE_PATH), " Профиль ", this);

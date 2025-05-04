@@ -1,7 +1,10 @@
 #include "ColorPalette.h"
-
+#include <QVariant>
 ColorPalette::ColorPalette(QWidget* parent)
-    : QWidget(parent) {
+    : QWidget(parent),
+    backgroundColor(Qt::white),  // Добавляем инициализацию
+    textColor(Qt::black)
+{
     setWindowTitle("Настройка палитры цветов");
     QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -50,12 +53,14 @@ void ColorPalette::applyColors() {
     QPalette palette = this->palette();
     palette.setColor(QPalette::Window, backgroundColor);
     this->setPalette(palette);
+    //this->setAutoFillBackground(true);
     label->setStyleSheet(QString("color: %1").arg(textColor.name()));
 }
 
+
 void ColorPalette::saveColors() {
     QSettings settings("MyApp", "Settings");
-    settings.setValue("backgroundColor", backgroundColor.name());
+    settings.setValue("backgroundColor", backgroundColor.name()); // Сохраняем QColor напрямую
     settings.setValue("textColor", textColor.name());
 }
 
@@ -66,3 +71,4 @@ void ColorPalette::loadColors() {
     backgroundColor = QColor(bgColor);
     textColor = QColor(txtColor);
 }
+

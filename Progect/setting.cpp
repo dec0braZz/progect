@@ -17,21 +17,32 @@ Setting::Setting(QSharedPointer<QTcpSocket> sharedSocket, const QString& usernam
 
     loadSettingsFromServer();
 }
+//void Setting::applyColors(const QJsonObject &colorsObj) {
+//    if (colorsObj.contains("backgroundColor") && colorsObj["backgroundColor"].isString()) {
+//        this->setStyleSheet(QString("background-color: %1;").arg(colorsObj["backgroundColor"].toString()));
+//    }
+
+//    if (colorsObj.contains("textColor") && colorsObj["textColor"].isString()) {
+//        this->setStyleSheet(QString("color: %1;").arg(colorsObj["textColor"].toString()));
+//    }
+//}
 void Setting::applyColors(const QJsonObject &colorsObj) {
-    // Пример: в JSON приходят цвета в формате #RRGGBB
-    if (colorsObj.contains("background") && colorsObj["background"].isString()) {
-        this->setStyleSheet(QString("background-color: %1;").arg(colorsObj["background"].isString()));
+    QString style;
+
+    if (colorsObj.contains("backgroundColor")) {
+        QColor bgColor = QColor(colorsObj["backgroundColor"].toString());
+        style += QString("background-color: %1; ").arg(bgColor.name());
     }
 
-    if (colorsObj.contains("text") && colorsObj["text"].isString()) {
-        this->setStyleSheet(QString("color: %1;").arg(colorsObj["text"].isString()));
+    if (colorsObj.contains("textColor")) {
+        QColor txtColor = QColor(colorsObj["textColor"].toString());
+        style += QString("color: %1; ").arg(txtColor.name());
     }
 
-
-    // Здесь можно добавить остальные цвета и логику их применения
-
-    // После установки можно обновить интерфейс или сохранить настройки
+    if (!style.isEmpty())
+        this->setStyleSheet(style);
 }
+
 
 void Setting::setCurrentUsername(const QString &username) {
     currentUsername = username;

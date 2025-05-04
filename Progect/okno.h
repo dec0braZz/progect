@@ -16,6 +16,7 @@
 #include <QAction>
 #include <QListWidget>
 #include <QDialog>
+#include <QHBoxLayout>
 
 class OKNO : public QWidget {
     Q_OBJECT
