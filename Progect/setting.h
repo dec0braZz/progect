@@ -38,6 +38,8 @@ protected:
 signals:
     void colorsChanged(const QColor &background, const QColor &text);
     void closed();
+    void colorsUpdated(const QColor& background, const QColor& text);
+
 };
 
 #endif // SETTING_H

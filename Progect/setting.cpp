@@ -18,29 +18,38 @@ Setting::Setting(QSharedPointer<QTcpSocket> sharedSocket, const QString& usernam
     loadSettingsFromServer();
 }
 //void Setting::applyColors(const QJsonObject &colorsObj) {
-//    if (colorsObj.contains("backgroundColor") && colorsObj["backgroundColor"].isString()) {
-//        this->setStyleSheet(QString("background-color: %1;").arg(colorsObj["backgroundColor"].toString()));
+//    QString style;
+//    if (colorsObj.contains("backgroundColor")) {
+//        QColor bgColor = QColor(colorsObj["backgroundColor"].toString());
+//        style += QString("background-color: %1; ").arg(bgColor.name());
 //    }
 
-//    if (colorsObj.contains("textColor") && colorsObj["textColor"].isString()) {
-//        this->setStyleSheet(QString("color: %1;").arg(colorsObj["textColor"].toString()));
+//    if (colorsObj.contains("textColor")) {
+//        QColor txtColor = QColor(colorsObj["textColor"].toString());
+//        style += QString("color: %1; ").arg(txtColor.name());
 //    }
+//    emit colorsUpdated(bgColor, txtColor);
+//    if (!style.isEmpty())
+//        this->setStyleSheet(style);
 //}
 void Setting::applyColors(const QJsonObject &colorsObj) {
     QString style;
+    QColor bgColor = this->palette().color(QPalette::Window);
+    QColor txtColor = this->palette().color(QPalette::WindowText);
 
     if (colorsObj.contains("backgroundColor")) {
-        QColor bgColor = QColor(colorsObj["backgroundColor"].toString());
+        bgColor = QColor(colorsObj["backgroundColor"].toString());
         style += QString("background-color: %1; ").arg(bgColor.name());
     }
-
     if (colorsObj.contains("textColor")) {
-        QColor txtColor = QColor(colorsObj["textColor"].toString());
+        txtColor = QColor(colorsObj["textColor"].toString());
         style += QString("color: %1; ").arg(txtColor.name());
     }
 
     if (!style.isEmpty())
         this->setStyleSheet(style);
+
+    emit colorsUpdated(bgColor, txtColor);
 }
 
 
@@ -60,6 +69,8 @@ void Setting::openColorPalette() {
 void Setting::updateColors(const QColor &background, const QColor &text) {
     // Устанавливаем цвет фона
     this->setStyleSheet(QString("background-color: %1;").arg(background.name()));
+    // Отправляем цвета в главное окно
+       emit colorsUpdated(background, text);
     // Если у вас есть элементы, которые нужно обновить, находите их и обновляйте цвет текста
     // Например, если у вас есть метка или кнопка
     // myLabel->setStyleSheet(QString("color: %1;").arg(text.name()));

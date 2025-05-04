@@ -22,7 +22,6 @@ class OKNO : public QWidget {
     Q_OBJECT
 public:
      explicit OKNO(Setting* setting, QWidget *parent = nullptr);
-
     void openOKNO();
     ~OKNO();
 protected:
@@ -44,13 +43,11 @@ private:
     QLabel *grupa;
     QLabel *seting;
     QLabel *profile;
-    QPropertyAnimation *animation;
-    QPropertyAnimation *animationToFinal;
-        QPropertyAnimation *animationToFinalGrupa;
-        QPropertyAnimation *animationToFinalseting;
-        QPropertyAnimation *animationToFinalprofile;
+
         QListWidget* friendsList;
             QListWidget* addFriendList;
+public slots:
+  void updateWindowColors(const QColor& background, const QColor& text); //слот для обработки изменения цветов через setting
 signals:
     void openSettings();
     void closed();

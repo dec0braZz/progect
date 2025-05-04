@@ -18,6 +18,7 @@ OKNO::OKNO(Setting* setting, QWidget *parent) : QWidget(parent), m_setting(setti
     grupa(new QLabel(this)),
     seting(new QLabel(this)),
     profile(new QLabel(this)) {
+
     socketObj = new Socket(this);  // создаём объект Socket
     setWindowTitle("KLOZ");
     setStyleSheet("background-color: grey;");
@@ -61,8 +62,18 @@ OKNO::OKNO(Setting* setting, QWidget *parent) : QWidget(parent), m_setting(setti
     // Подключаем сигналы
     connect(groupAction, &QAction::triggered, this, &OKNO::showGroupActions);
     connect(settingsAction, &QAction::triggered, this, &OKNO::showSetting);
-}
+    connect(setting, &Setting::colorsUpdated, this, &OKNO::updateWindowColors);
+   }
+void OKNO::updateWindowColors(const QColor& background, const QColor& text) {
+    this->setStyleSheet(QString("background-color: %1;").arg(background.name()));
 
+    foreach(QWidget* widget, this->findChildren<QWidget*>()) {
+        if (qobject_cast<QLabel*>(widget)) {
+            widget->setStyleSheet(QString("color: %1;").arg(text.name()));
+        }
+        // Можно добавить стили для других виджетов
+    }
+}
 void OKNO::showGroupActions() {
     // Сначала проверяем, существуют ли уже списки
     if (!friendsList) {
