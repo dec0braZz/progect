@@ -33,6 +33,7 @@ private:
     QLabel *statusLabel;
     QNetworkAccessManager *networkManager;
     Setting *setting = nullptr;
+    OKNO *okno = nullptr;
 
 private slots:
     void onDataReceived();

@@ -20,6 +20,7 @@ public:
     void openSetting();
     void on_colorButton_clicked();
     void applyColors(const QJsonObject &colorsObj);
+    QString getCurrentUsername() const { return currentUsername; }
 private slots:
     void openColorPalette();
     void closeColorPalette();

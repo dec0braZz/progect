@@ -6,6 +6,7 @@
 class Socket : public QTcpSocket {
     Q_OBJECT
 public:
+    void sendJson(const QJsonObject& obj);
     explicit Socket(QObject *parent = nullptr);
     QSharedPointer<QTcpSocket> getSocket() const;
 private:

@@ -17,21 +17,6 @@ Setting::Setting(QSharedPointer<QTcpSocket> sharedSocket, const QString& usernam
 
     loadSettingsFromServer();
 }
-//void Setting::applyColors(const QJsonObject &colorsObj) {
-//    QString style;
-//    if (colorsObj.contains("backgroundColor")) {
-//        QColor bgColor = QColor(colorsObj["backgroundColor"].toString());
-//        style += QString("background-color: %1; ").arg(bgColor.name());
-//    }
-
-//    if (colorsObj.contains("textColor")) {
-//        QColor txtColor = QColor(colorsObj["textColor"].toString());
-//        style += QString("color: %1; ").arg(txtColor.name());
-//    }
-//    emit colorsUpdated(bgColor, txtColor);
-//    if (!style.isEmpty())
-//        this->setStyleSheet(style);
-//}
 void Setting::applyColors(const QJsonObject &colorsObj) {
     QString style;
     QColor bgColor = this->palette().color(QPalette::Window);
