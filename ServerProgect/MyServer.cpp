@@ -54,6 +54,14 @@ void MyServer::initDatabase() {
             message TEXT NOT NULL,
             read_status BOOLEAN DEFAULT FALSE
         ))");
+        query.exec(R"(CREATE TABLE IF NOT EXISTS voice_calls (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            caller_username TEXT NOT NULL,
+            callee_username TEXT NOT NULL,
+            status TEXT DEFAULT 'pending',
+            timestamp TEXT NOT NULL,
+            UNIQUE(caller_username, callee_username) ON CONFLICT REPLACE
+        ))");
     if (query.lastError().isValid()) {
         qCritical() << "Create table error:" << query.lastError().text();
     }
@@ -206,13 +214,128 @@ void MyServer::handleRequest(QTcpSocket *socket) {
         jsonResponse = acceptFriendRequestHandler(json);
     } else if (json["command"].toString() == "REJECT_FRIEND_REQUEST" && json.contains("request_id")) {
         jsonResponse = rejectFriendRequestHandler(json);
-    } else {
+    }    else if (json["command"].toString() == "VOICE_CALL_REQUEST" && json.contains("from") && json.contains("to")) {
+        jsonResponse = voiceCallRequestHandler(json);
+    } else if (json["command"].toString() == "VOICE_CALL_RESPONSE" && json.contains("from") && json.contains("to") && json.contains("response")) {
+        jsonResponse = voiceCallResponseHandler(json);
+    }
+    else {
         jsonResponse = errorHandler();
     }
 
     QJsonDocument jsonDoc(jsonResponse);
     socket->write(jsonDoc.toJson());
     socket->flush();
+}
+
+QJsonObject MyServer::voiceCallRequestHandler(QJsonObject json) {
+    QJsonObject jsonResponse;
+
+    QString from = json["from"].toString();
+    QString to = json["to"].toString();
+
+    // Проверяем, существует ли пользователь, которому звоним
+    QSqlQuery checkUser;
+    checkUser.prepare("SELECT COUNT(*) FROM users WHERE username = :username");
+    checkUser.bindValue(":username", to);
+
+    if (!checkUser.exec() || !checkUser.next() || checkUser.value(0).toInt() == 0) {
+        jsonResponse["status"] = "ERROR";
+        jsonResponse["message"] = "User not found";
+        return jsonResponse;
+    }
+
+    // Проверяем, онлайн ли пользователь
+    QTcpSocket* recipientSocket = userSockets.value(to, nullptr);
+    if (!recipientSocket) {
+        jsonResponse["status"] = "ERROR";
+        jsonResponse["message"] = "User is offline";
+        return jsonResponse;
+    }
+
+    // Сохраняем запрос о вызове в базу данных
+    QSqlQuery insertCall;
+    insertCall.prepare(R"(
+        INSERT INTO voice_calls (caller_username, callee_username, status, timestamp)
+        VALUES (:caller, :callee, 'pending', datetime('now'))
+    )");
+    insertCall.bindValue(":caller", from);
+    insertCall.bindValue(":callee", to);
+
+    if (!insertCall.exec()) {
+        qCritical() << "Error inserting voice call record:" << insertCall.lastError().text();
+        jsonResponse["status"] = "ERROR";
+        jsonResponse["message"] = "Database error";
+        return jsonResponse;
+    }
+
+    // Получаем ID созданного вызова
+    QSqlQuery idQuery("SELECT last_insert_rowid()");
+    int callId = -1;
+    if (idQuery.next()) {
+        callId = idQuery.value(0).toInt();
+    }
+
+    // Отправляем уведомление о вызове
+    QJsonObject callNotification;
+    callNotification["command"] = "voice_call";
+    callNotification["action"] = "incoming";
+    callNotification["from"] = from;
+    callNotification["from_prefix"] = getPrefix(from);
+    callNotification["call_id"] = callId;  // Добавляем ID вызова
+
+    recipientSocket->write(QJsonDocument(callNotification).toJson());
+    recipientSocket->flush();
+
+    jsonResponse["status"] = "SUCCESS";
+    jsonResponse["message"] = "Call request sent";
+    jsonResponse["call_id"] = callId;
+    return jsonResponse;
+}
+
+QJsonObject MyServer::voiceCallResponseHandler(QJsonObject json) {
+    QJsonObject jsonResponse;
+
+    QString from = json["from"].toString();
+    QString to = json["to"].toString();
+    QString response = json["response"].toString(); // "accept" или "reject"
+
+    // Обновляем статус вызова в базе данных
+    QSqlQuery updateCall;
+    updateCall.prepare(R"(
+        UPDATE voice_calls
+        SET status = :status
+        WHERE caller_username = :caller AND callee_username = :callee AND status = 'pending'
+    )");
+    updateCall.bindValue(":status", response);
+    updateCall.bindValue(":caller", to);  // Здесь to - это caller, так как ответ идет от callee
+    updateCall.bindValue(":callee", from);
+
+    if (!updateCall.exec()) {
+        qCritical() << "Error updating voice call status:" << updateCall.lastError().text();
+    }
+
+    // Находим сокет вызывающего пользователя
+    QTcpSocket* callerSocket = userSockets.value(to, nullptr);
+    if (!callerSocket) {
+        jsonResponse["status"] = "ERROR";
+        jsonResponse["message"] = "Caller is now offline";
+        return jsonResponse;
+    }
+
+    // Отправляем ответ вызывающему пользователю
+    QJsonObject callResponse;
+    callResponse["command"] = "voice_call";
+    callResponse["action"] = "response";
+    callResponse["from"] = from;
+    callResponse["response"] = response;
+
+    callerSocket->write(QJsonDocument(callResponse).toJson());
+    callerSocket->flush();
+
+    jsonResponse["status"] = "SUCCESS";
+    jsonResponse["message"] = "Call response sent";
+    return jsonResponse;
 }
 
 void MyServer::onSocketDisconnected() {
@@ -270,6 +393,7 @@ QJsonObject MyServer::loginHandler(QJsonObject json, QTcpSocket *socket) {
         userSockets[username] = socket;
 
         // Проверяем непрочитанные уведомления
+        QTimer::singleShot(1000, [this, username, socket]() {
         QSqlQuery unreadNotifies;
         unreadNotifies.prepare("SELECT * FROM notifications WHERE receiver_username = :username AND read_status = FALSE");
         unreadNotifies.bindValue(":username", username);
@@ -288,7 +412,7 @@ QJsonObject MyServer::loginHandler(QJsonObject json, QTcpSocket *socket) {
             markAsRead.bindValue(":id", unreadNotifies.value("id").toInt());
             markAsRead.exec();
         }
-        
+        });
         return jsonResponse;
     }
     return errorHandler();

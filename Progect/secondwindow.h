@@ -42,6 +42,7 @@ private slots:
 signals:
     void loggedIn(Setting* setting); // Сигнал для входа
     void closed();
+        void voiceCallReceived(const QJsonObject& callData);
 };
 
 

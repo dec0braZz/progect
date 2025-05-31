@@ -17,6 +17,7 @@ Setting::Setting(QSharedPointer<QTcpSocket> sharedSocket, const QString& usernam
 
     loadSettingsFromServer();
 }
+
 void Setting::applyColors(const QJsonObject &colorsObj) {
     QString style;
     QColor bgColor = this->palette().color(QPalette::Window);

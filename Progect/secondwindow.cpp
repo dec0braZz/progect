@@ -85,13 +85,19 @@ void SecondWindow::onDataReceived() {
             QString username = usernameEdit->text();
             setting = new Setting(socket, username, this); // Передаем socket как QSharedPointer
             // Показать следующее окно
-            okno = new OKNO(setting, nullptr);
+
+            okno = new OKNO(setting,socket, nullptr);
+            connect(this, &SecondWindow::voiceCallReceived, okno, &OKNO::handleIncomingVoiceCall);
              // Передаем setting в OKNO
           //  connect(okno, &OKNO::openSettings, setting, &Setting::show);
            // connect(okno, &OKNO::openSettings, setting, &Setting::loadSettingsFromServer); // Загружаем настройки после открытия
             okno->show();
             this->hide();
 
+        }
+        else   if (jsonResponse["command"].toString() == "voice_call") {
+            emit voiceCallReceived(jsonResponse);
+            return;
         }
         else if(jsonResponse["Setting load"].toString() == "SUCCESS"){
                     // Проверяем есть ли объект settings

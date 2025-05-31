@@ -17,6 +17,7 @@ class Setting : public QDialog{
 public:
      Setting(QSharedPointer<QTcpSocket> sharedSocket, const QString& username, QWidget* parent = nullptr);
     void toggleColorPalette();
+
     void openSetting();
     void on_colorButton_clicked();
     void applyColors(const QJsonObject &colorsObj);

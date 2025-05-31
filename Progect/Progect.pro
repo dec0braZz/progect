@@ -12,6 +12,7 @@ CONFIG -= app_bundle
 
 SOURCES += \
         ColorPalette.cpp \
+        chatwindow.cpp \
         main.cpp \
         okno.cpp \
         secondwindow.cpp \
@@ -26,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ColorPalette.h \
+    chatwindow.h \
     okno.h \
     secondwindow.h \
     secondwindowregistr.h \

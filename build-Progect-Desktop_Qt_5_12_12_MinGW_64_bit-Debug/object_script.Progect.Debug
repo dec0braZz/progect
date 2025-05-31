@@ -1,0 +1,15 @@
+debug/ColorPalette.o
+debug/chatwindow.o
+debug/main.o
+debug/okno.o
+debug/secondwindow.o
+debug/secondwindowregistr.o
+debug/setting.o
+debug/socket.o
+debug/moc_ColorPalette.o
+debug/moc_chatwindow.o
+debug/moc_okno.o
+debug/moc_secondwindow.o
+debug/moc_secondwindowregistr.o
+debug/moc_setting.o
+debug/moc_socket.o
