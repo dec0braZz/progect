@@ -19,6 +19,8 @@ public:
     explicit MyServer(QObject *parent = nullptr);
     void initDatabase();
     void sendJson(QTcpSocket *socket, const QJsonObject &obj);
+
+    QJsonObject voiceCallEndHandler(const QJsonObject &json);
     QJsonObject voiceCallResponseHandler(QJsonObject json);
     QJsonObject voiceCallRequestHandler(QJsonObject json);
     QJsonArray loadFriends(const QString& username);

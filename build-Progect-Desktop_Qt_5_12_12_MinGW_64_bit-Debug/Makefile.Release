@@ -385,10 +385,9 @@ release/moc_chatwindow.cpp: ../Progect/chatwindow.h \
 	C:\Qt\Qt5.12.12\5.12.12\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/home/Desktop/qq/build-Progect-Desktop_Qt_5_12_12_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/win32-g++ -IC:/Users/home/Desktop/qq/Progect -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtANGLE -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtSql -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore -I. -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Qt5.12.12/Tools/mingw730_64/x86_64-w64-mingw32/include ..\Progect\chatwindow.h -o release\moc_chatwindow.cpp
 
 release/moc_okno.cpp: ../Progect/okno.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QWidget \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qwidget.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtwidgetsglobal.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/QUdpSocket \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qudpsocket.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtnetworkglobal.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qglobal.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qconfig-bootstrapped.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qconfig.h \
@@ -410,14 +409,13 @@ release/moc_okno.cpp: ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qmutex.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qnumeric.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qversiontagging.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtgui-config.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtwidgets-config.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qwindowdefs.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qabstractsocket.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qiodevice.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobject.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobjectdefs_impl.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qwindowdefs_win.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobject.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qstring.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qchar.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qbytearray.h \
@@ -442,32 +440,47 @@ release/moc_okno.cpp: ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvarlengtharray.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcontainerfwd.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobject_impl.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qdebug.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qhash.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qmap.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qtextstream.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qlocale.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvariant.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qshareddata.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvector.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpoint.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qset.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcontiguouscache.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsharedpointer.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qhostaddress.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QWidget \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qwidget.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtwidgetsglobal.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtgui-config.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtwidgets-config.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qwindowdefs.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qmargins.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpaintdevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qrect.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsize.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpoint.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpalette.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qcolor.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qrgb.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qrgba64.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qbrush.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvector.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qmatrix.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpolygon.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qregion.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qdatastream.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qiodevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qline.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtransform.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpainterpath.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qimage.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpixelformat.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpixmap.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsharedpointer.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qshareddata.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qhash.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsharedpointer_impl.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qfont.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qfontmetrics.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qfontinfo.h \
@@ -475,13 +488,6 @@ release/moc_okno.cpp: ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qcursor.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qkeysequence.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qevent.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvariant.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qmap.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qdebug.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qtextstream.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qlocale.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qset.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcontiguouscache.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qurl.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qurlquery.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qfile.h \
@@ -553,9 +559,6 @@ release/moc_okno.cpp: ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qjsondocument.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/QTcpSocket \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtcpsocket.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtnetworkglobal.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtnetwork-config.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qabstractsocket.h \
 		../Progect/socket.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QSharedPointer \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QToolBar \
@@ -722,6 +725,9 @@ release/moc_secondwindow.cpp: ../Progect/secondwindow.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpen.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtextoption.h \
 		../Progect/okno.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/QUdpSocket \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qudpsocket.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qhostaddress.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/QMovie \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qmovie.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qimagereader.h \
@@ -1694,6 +1700,9 @@ release/main.o: ../Progect/main.cpp C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/Q
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpen.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtextoption.h \
 		../Progect/okno.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/QUdpSocket \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qudpsocket.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qhostaddress.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QPropertyAnimation \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpropertyanimation.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvariantanimation.h \
@@ -1775,10 +1784,9 @@ release/main.o: ../Progect/main.cpp C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/Q
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o ..\Progect\main.cpp
 
 release/okno.o: ../Progect/okno.cpp ../Progect/okno.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QWidget \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qwidget.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtwidgetsglobal.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/QUdpSocket \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qudpsocket.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtnetworkglobal.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qglobal.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qconfig-bootstrapped.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qconfig.h \
@@ -1800,14 +1808,13 @@ release/okno.o: ../Progect/okno.cpp ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qmutex.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qnumeric.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qversiontagging.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtgui-config.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtwidgets-config.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qwindowdefs.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qabstractsocket.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qiodevice.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobject.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobjectdefs_impl.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qwindowdefs_win.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobject.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qstring.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qchar.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qbytearray.h \
@@ -1832,32 +1839,47 @@ release/okno.o: ../Progect/okno.cpp ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvarlengtharray.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcontainerfwd.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qobject_impl.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qdebug.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qhash.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qmap.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qtextstream.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qlocale.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvariant.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qshareddata.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvector.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpoint.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qset.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcontiguouscache.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsharedpointer.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qhostaddress.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QWidget \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qwidget.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtwidgetsglobal.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtgui-config.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtwidgets-config.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qwindowdefs.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qmargins.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpaintdevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qrect.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsize.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qpoint.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpalette.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qcolor.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qrgb.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qrgba64.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qbrush.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvector.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qmatrix.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpolygon.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qregion.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qdatastream.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qiodevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qline.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtransform.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpainterpath.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qimage.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpixelformat.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpixmap.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsharedpointer.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qshareddata.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qhash.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qsharedpointer_impl.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qfont.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qfontmetrics.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qfontinfo.h \
@@ -1865,13 +1887,6 @@ release/okno.o: ../Progect/okno.cpp ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qcursor.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qkeysequence.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qevent.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qvariant.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qmap.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qdebug.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qtextstream.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qlocale.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qset.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcontiguouscache.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qurl.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qurlquery.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qfile.h \
@@ -1943,9 +1958,6 @@ release/okno.o: ../Progect/okno.cpp ../Progect/okno.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qjsondocument.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/QTcpSocket \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtcpsocket.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtnetworkglobal.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qtnetwork-config.h \
-		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qabstractsocket.h \
 		../Progect/socket.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/QSharedPointer \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QToolBar \
@@ -2116,6 +2128,9 @@ release/secondwindow.o: ../Progect/secondwindow.cpp ../Progect/secondwindow.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qpen.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtextoption.h \
 		../Progect/okno.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/QUdpSocket \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qudpsocket.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtNetwork/qhostaddress.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/QMovie \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qmovie.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qimagereader.h \

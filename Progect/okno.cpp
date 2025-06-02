@@ -343,55 +343,83 @@ void OKNO::handleFriendsList(const QJsonArray& friends) {
  updateFriendsList();
 }
 void OKNO::handleIncomingVoiceCall(const QJsonObject& callData) {
-    if(isInCall) {
-        // Если уже в вызове, автоматически отклоняем новый
+    QString command = callData["command"].toString();
+    QString action = callData["action"].toString();
+
+    if (action == "incoming") {
+        if(isInCall) {
+            QJsonObject response;
+            response["command"] = "VOICE_CALL_RESPONSE";
+            response["to"] = callData["from"].toString();
+            response["from"] = m_setting->getCurrentUsername();
+            response["response"] = "reject";
+            response["reason"] = "User is busy";
+
+            socketObj->write(QJsonDocument(response).toJson());
+            return;
+        }
+
+        QString from = callData["from"].toString();
+        QString fromPrefix = callData["from_prefix"].toString();
+        int callId = callData["call_id"].toInt();
+
+        QMessageBox callDialog(this);
+        callDialog.setWindowTitle("Входящий вызов");
+        callDialog.setText(QString("Входящий вызов от %1#%2").arg(from).arg(fromPrefix));
+
+        QPushButton *acceptButton = callDialog.addButton("Принять", QMessageBox::AcceptRole);
+        QPushButton *rejectButton = callDialog.addButton("Отклонить", QMessageBox::RejectRole);
+
+        callDialog.exec();
+
         QJsonObject response;
         response["command"] = "VOICE_CALL_RESPONSE";
-        response["to"] = callData["from"].toString();
+        response["to"] = from;
         response["from"] = m_setting->getCurrentUsername();
-        response["response"] = "reject";
-        response["reason"] = "User is busy";
+        response["call_id"] = callId;
+
+        if(callDialog.clickedButton() == acceptButton) {
+            response["response"] = "accept";
+            currentCallPeer = from;
+            startVoiceChat(); // Окно открывается сразу у принимающего
+        } else {
+            response["response"] = "reject";
+        }
 
         socketObj->write(QJsonDocument(response).toJson());
-        return;
+    }
+    else if (action == "response") {
+        QString from = callData["from"].toString();
+        QString result = callData["response"].toString();
+
+        if(result == "accept") {
+            QMessageBox::information(this, "Вызов принят",
+                QString("Пользователь %1 принял ваш вызов. Начинаем голосовой чат.").arg(from));
+            currentCallPeer = from;
+            startVoiceChat(); // Окно открывается у инициатора
+        } else {
+            QMessageBox::information(this, "Вызов отклонен",
+                QString("Пользователь %1 отклонил ваш вызов.").arg(from));
+        }
+    }else if (action == "ended") {
+        // Обработка завершения вызова другой стороной
+        QString from = callData["from"].toString();
+        QMessageBox::information(this, "Вызов завершен",
+            QString("Пользователь %1 завершил голосовой вызов.").arg(from));
+
+        stopVoiceChat(); // Завершаем вызов и у себя
     }
 
-    QString from = callData["from"].toString();
-    QString fromPrefix = callData["from_prefix"].toString();
-    int callId = callData["call_id"].toInt();
-
-    QMessageBox callDialog(this);
-    callDialog.setWindowTitle("Входящий вызов");
-    callDialog.setText(QString("Входящий вызов от %1#%2").arg(from).arg(fromPrefix));
-
-    QPushButton *acceptButton = callDialog.addButton("Принять", QMessageBox::AcceptRole);
-    QPushButton *rejectButton = callDialog.addButton("Отклонить", QMessageBox::RejectRole);
-
-    callDialog.exec();
-
-    QJsonObject response;
-    response["command"] = "VOICE_CALL_RESPONSE";
-    response["to"] = from;
-    response["from"] = m_setting->getCurrentUsername();
-    response["call_id"] = callId;
-
-    if(callDialog.clickedButton() == acceptButton) {
-        response["response"] = "accept";
-        currentCallPeer = from;
-        startVoiceChat();
-    } else {
-        response["response"] = "reject";
-    }
-
-    socketObj->write(QJsonDocument(response).toJson());
 }
-
 void OKNO::startVoiceChat() {
+    if (isInCall) return; // Уже в вызове
+
     isInCall = true;
 
-    // Создаем диалог голосового чата
-    QDialog *voiceChatDialog = new QDialog(this);
+    // Создаем диалог голосового чата (не модальный)
+    voiceChatDialog = new QDialog(this);
     voiceChatDialog->setWindowTitle("Голосовой чат с " + currentCallPeer);
+    voiceChatDialog->setAttribute(Qt::WA_DeleteOnClose);
 
     QVBoxLayout *layout = new QVBoxLayout(voiceChatDialog);
     QLabel *statusLabel = new QLabel("Идет разговор...", voiceChatDialog);
@@ -401,16 +429,13 @@ void OKNO::startVoiceChat() {
     layout->addWidget(endButton);
     voiceChatDialog->setLayout(layout);
 
-    connect(endButton, &QPushButton::clicked, [this, voiceChatDialog]() {
-        stopVoiceChat();
-        voiceChatDialog->close();
-    });
+    connect(endButton, &QPushButton::clicked, this, &OKNO::stopVoiceChat);
+    connect(voiceChatDialog, &QDialog::finished, this, &OKNO::stopVoiceChat);
 
-    voiceChatDialog->exec();
+    voiceChatDialog->show(); // Показываем немодально
 
-    // Здесь должна быть реализация QUdpSocket для передачи аудио
-    // Пример простой реализации:
-    voiceSocket->bind(QHostAddress::Any, 12345); // Порт для голосового чата
+    // Настройка голосового соединения
+    voiceSocket->bind(QHostAddress::Any, 12345);
 
     connect(voiceSocket, &QUdpSocket::readyRead, [this]() {
         while (voiceSocket->hasPendingDatagrams()) {
@@ -420,26 +445,35 @@ void OKNO::startVoiceChat() {
             quint16 senderPort;
 
             voiceSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
-            // Здесь должен быть код обработки аудио данных
-            // Например, воспроизведение полученных аудио данных
+            // Обработка аудио данных
         }
     });
 }
 
 void OKNO::stopVoiceChat() {
-    isInCall = false;
-    currentCallPeer.clear();
-    voiceSocket->close();
+    if (!isInCall) return;
 
-    // Отправляем уведомление о завершении вызова
+    isInCall = false;
+
+    // Отправляем уведомление о завершении вызова только если мы инициаторы завершения
     if(!currentCallPeer.isEmpty()) {
         QJsonObject message;
         message["command"] = "VOICE_CALL_END";
         message["from"] = m_setting->getCurrentUsername();
         message["to"] = currentCallPeer;
-
         socketObj->write(QJsonDocument(message).toJson());
+    }
+
+    // Закрываем сокет
+    voiceSocket->close();
+    voiceSocket->disconnect();
+
+    currentCallPeer.clear();
+
+    // Закрываем диалог, если он еще открыт
+    if (voiceChatDialog) {
+        voiceChatDialog->close();
+        voiceChatDialog = nullptr;
     }
 }
 OKNO::~OKNO() {

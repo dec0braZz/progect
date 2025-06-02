@@ -218,6 +218,8 @@ void MyServer::handleRequest(QTcpSocket *socket) {
         jsonResponse = voiceCallRequestHandler(json);
     } else if (json["command"].toString() == "VOICE_CALL_RESPONSE" && json.contains("from") && json.contains("to") && json.contains("response")) {
         jsonResponse = voiceCallResponseHandler(json);
+    } else if (json["command"].toString() == "VOICE_CALL_END" && json.contains("from") && json.contains("to")) {
+        jsonResponse = voiceCallEndHandler(json);
     }
     else {
         jsonResponse = errorHandler();
@@ -672,5 +674,47 @@ QJsonObject MyServer::rejectFriendRequestHandler(QJsonObject json) {
         }
     }
 
+    return jsonResponse;
+}
+QJsonObject MyServer::voiceCallEndHandler(const QJsonObject &json) {
+    QJsonObject jsonResponse;
+
+    QString from = json["from"].toString();
+    QString to = json["to"].toString();
+
+    // Обновляем статус вызова в базе данных
+    QSqlQuery updateCall;
+    updateCall.prepare(R"(
+        UPDATE voice_calls
+        SET status = 'ended'
+        WHERE (caller_username = :from AND callee_username = :to)
+           OR (caller_username = :to AND callee_username = :from)
+        AND status = 'accepted'
+    )");
+    updateCall.bindValue(":from", from);
+    updateCall.bindValue(":to", to);
+
+    if (!updateCall.exec()) {
+        qCritical() << "Error updating voice call status:" << updateCall.lastError().text();
+        jsonResponse["status"] = "ERROR";
+        jsonResponse["message"] = "Database error";
+        return jsonResponse;
+    }
+
+    // Находим сокет другого участника вызова
+    QTcpSocket* otherUserSocket = userSockets.value(to, nullptr);
+    if (otherUserSocket) {
+        // Отправляем уведомление о завершении вызова
+        QJsonObject endNotification;
+        endNotification["command"] = "voice_call";
+        endNotification["action"] = "ended";
+        endNotification["from"] = from;
+
+        otherUserSocket->write(QJsonDocument(endNotification).toJson());
+        otherUserSocket->flush();
+    }
+
+    jsonResponse["status"] = "SUCCESS";
+    jsonResponse["message"] = "Call ended successfully";
     return jsonResponse;
 }

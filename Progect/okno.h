@@ -53,6 +53,7 @@ void updatePendingRequestsList();
 void updateFriendsList();
   void handleFriendsList(const QJsonArray& friends);
 private:
+  QDialog* voiceChatDialog = nullptr;
     Socket *socketObj;
     QLabel *mesage;
     QLabel *grupa;
