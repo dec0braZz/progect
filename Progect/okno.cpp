@@ -434,20 +434,77 @@ void OKNO::startVoiceChat() {
 
     voiceChatDialog->show(); // Показываем немодально
 
-    // Настройка голосового соединения
+    // Настройка аудио устройства
+    QAudioFormat format;
+    format.setSampleRate(8000);
+    format.setChannelCount(1);
+    format.setSampleSize(16);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::SignedInt);
+
+    QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
+    if (!info.isFormatSupported(format)) {
+        qWarning() << "Default format not supported, trying to use nearest";
+        format = info.nearestFormat(format);
+    }
+
+    // Инициализация аудио устройств
+    audioInput = new QAudioInput(format, this);
+    audioOutput = new QAudioOutput(format, this);
+
+    // Создаем буферы для аудио данных
+    inputBuffer = new QBuffer(this);
+    inputBuffer->open(QIODevice::ReadWrite);
+    outputBuffer = new QBuffer(this);
+    outputBuffer->open(QIODevice::ReadWrite);
+
+    // Настройка UDP сокета для передачи голоса
     voiceSocket->bind(QHostAddress::Any, 12345);
 
-    connect(voiceSocket, &QUdpSocket::readyRead, [this]() {
-        while (voiceSocket->hasPendingDatagrams()) {
-            QByteArray datagram;
-            datagram.resize(voiceSocket->pendingDatagramSize());
-            QHostAddress sender;
-            quint16 senderPort;
+    // Подключаем обработчик входящих данных
+    connect(voiceSocket, &QUdpSocket::readyRead, this, &OKNO::processVoiceData);
 
-            voiceSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-            // Обработка аудио данных
-        }
-    });
+    // Начинаем запись и воспроизведение
+    audioInput->start(inputBuffer);
+    audioOutput->start(outputBuffer);
+
+    // Таймер для отправки аудио данных
+    QTimer *sendTimer = new QTimer(this);
+    connect(sendTimer, &QTimer::timeout, this, &OKNO::sendVoiceData);
+    sendTimer->start(50); // Отправляем данные каждые 50 мс
+}
+
+void OKNO::processVoiceData() {
+    while (voiceSocket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(voiceSocket->pendingDatagramSize());
+        QHostAddress sender;
+        quint16 senderPort;
+
+        voiceSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        // Просто воспроизводим полученные данные (эхо)
+        outputBuffer->seek(0);
+        outputBuffer->write(datagram);
+        outputBuffer->seek(0);
+    }
+}
+
+void OKNO::sendVoiceData() {
+    if (!isInCall) return;
+
+    // Читаем данные из входного буфера
+    QByteArray data = inputBuffer->readAll();
+    if (data.isEmpty()) return;
+
+    // Отправляем данные на другой конец (в реальном приложении нужно указать правильный адрес)
+    // Здесь просто эмулируем отправку - в реальности нужно знать IP и порт собеседника
+    voiceSocket->writeDatagram(data, QHostAddress::LocalHost, 12345);
+
+    // Очищаем буфер для новых данных
+    inputBuffer->seek(0);
+    inputBuffer->buffer().clear();
 }
 
 void OKNO::stopVoiceChat() {
@@ -455,7 +512,33 @@ void OKNO::stopVoiceChat() {
 
     isInCall = false;
 
-    // Отправляем уведомление о завершении вызова только если мы инициаторы завершения
+    // Останавливаем аудио устройства
+    if (audioInput) {
+        audioInput->stop();
+        delete audioInput;
+        audioInput = nullptr;
+    }
+
+    if (audioOutput) {
+        audioOutput->stop();
+        delete audioOutput;
+        audioOutput = nullptr;
+    }
+
+    // Закрываем буферы
+    if (inputBuffer) {
+        inputBuffer->close();
+        delete inputBuffer;
+        inputBuffer = nullptr;
+    }
+
+    if (outputBuffer) {
+        outputBuffer->close();
+        delete outputBuffer;
+        outputBuffer = nullptr;
+    }
+
+    // Отправляем уведомление о завершении вызова
     if(!currentCallPeer.isEmpty()) {
         QJsonObject message;
         message["command"] = "VOICE_CALL_END";
@@ -463,10 +546,6 @@ void OKNO::stopVoiceChat() {
         message["to"] = currentCallPeer;
         socketObj->write(QJsonDocument(message).toJson());
     }
-
-    // Закрываем сокет
-    voiceSocket->close();
-    voiceSocket->disconnect();
 
     currentCallPeer.clear();
 

@@ -1,5 +1,9 @@
 #ifndef OKNO_H
 #define OKNO_H
+
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <QBuffer>
 #include <QUdpSocket>
 #include <QWidget>
 #include <QLabel>
@@ -34,6 +38,9 @@ protected:
     void closeEvent(QCloseEvent *event) override{
 
     }
+private:
+    void processVoiceData();
+    void sendVoiceData();
 private:
     QSharedPointer<QTcpSocket> tcpSocket;  // Для команд
         QUdpSocket* voiceSocket;
@@ -75,6 +82,11 @@ private:
 
           QString currentCallPeer;
           bool isInCall;
+
+          QAudioInput *audioInput;
+              QAudioOutput *audioOutput;
+              QBuffer *inputBuffer;
+              QBuffer *outputBuffer;
 
 public slots:
             void handleIncomingVoiceCall(const QJsonObject& callData);

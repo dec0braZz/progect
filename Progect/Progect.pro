@@ -1,6 +1,7 @@
 QT += widgets sql
 QT -= gui
 QT += network
+QT += multimedia
 QMAKE_CXXFLAGS += -O2
 
 CONFIG += c++11 console
